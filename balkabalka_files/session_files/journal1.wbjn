@@ -1,0 +1,72 @@
+# encoding: utf-8
+# 2021 R2
+SetScriptVersion(Version="21.2.209")
+template1 = GetTemplate(
+    TemplateName="Static Structural",
+    Solver="ANSYS")
+system1 = template1.CreateSystem()
+engineeringData1 = system1.GetContainer(ComponentName="Engineering Data")
+matl1 = engineeringData1.CreateMaterial(Name="mat1")
+matl2 = engineeringData1.CreateMaterial(Name="mat")
+matl2.Delete()
+matl3 = engineeringData1.CreateMaterial(Name="mat2")
+matl4 = engineeringData1.CreateMaterial(Name="mat3")
+matlProp1 = matl1.CreateProperty(
+    Name="Elasticity",
+    Behavior="Isotropic",
+    Qualifiers={"Definition": "", "Behavior": "Isotropic"})
+matlProp1.SetVariableProperty(
+    VariableName="Young's Modulus",
+    Property="Unit",
+    Value="MPa")
+matlProp1.SetData(
+    Index=-1,
+    Variables=["Young's Modulus"],
+    Values=[["1000 [MPa]"]])
+matlProp1.SetData(
+    Variables=["Poisson's Ratio"],
+    Values=[["0.3"]])
+matlProp2 = matl3.CreateProperty(
+    Name="Elasticity",
+    Behavior="Isotropic",
+    Qualifiers={"Definition": "", "Behavior": "Isotropic"})
+matlProp2.SetVariableProperty(
+    VariableName="Young's Modulus",
+    Property="Unit",
+    Value="MPa")
+matlProp2.SetData(
+    Index=-1,
+    Variables=["Young's Modulus"],
+    Values=[["200 [MPa]"]])
+matlProp2.SetData(
+    Variables=["Poisson's Ratio"],
+    Values=[["0.3"]])
+matlProp3 = matl4.CreateProperty(
+    Name="Elasticity",
+    Behavior="Isotropic",
+    Qualifiers={"Definition": "", "Behavior": "Isotropic"})
+matlProp3.SetData(
+    Index=-1,
+    Variables=["Young's Modulus"],
+    Values=[["2 [Pa]"]])
+matlProp3.SetVariableProperty(
+    VariableName="Young's Modulus",
+    Property="Unit",
+    Value="MPa")
+matlProp3.SetData(
+    Variables=["Young's Modulus"],
+    Values=[["2E-06 [MPa]"]])
+matlProp3.SetData(
+    Variables=["Young's Modulus"],
+    Values=[["2000 [MPa]"]])
+matlProp3.SetData(
+    Variables=["Poisson's Ratio"],
+    Values=[["0.3"]])
+geometry1 = system1.GetContainer(ComponentName="Geometry")
+geometry1.Edit(IsSpaceClaimGeometry=True)
+geometry1.Exit()
+modelComponent1 = system1.GetComponent(Name="Model")
+modelComponent1.Refresh()
+model1 = system1.GetContainer(ComponentName="Model")
+model1.Edit()
+Save(Overwrite=True)
